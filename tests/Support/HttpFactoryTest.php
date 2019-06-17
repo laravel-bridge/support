@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Tests\Support;
 
 use Illuminate\Http\Request as IlluminateRequest;
 use Illuminate\Http\Response as IlluminateResponse;
