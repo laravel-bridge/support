@@ -4,7 +4,7 @@ namespace LaravelBridge\Support;
 
 use BadMethodCallException;
 use Exception;
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\Container;
 use LaravelBridge\Support\Exceptions\EntryNotFoundException;
 use LaravelBridge\Support\Traits\ContainerAwareTrait;
 use Psr\Container\ContainerInterface;
@@ -14,7 +14,7 @@ use Psr\Container\ContainerInterface;
  *
  * When Laravel <= 5.4, it does not implements Psr7Container. We can use this class to bridge to PSR-11 Container
  *
- * @mixin Container
+ * @mixin \Illuminate\Container\Container
  */
 class ContainerBridge implements ContainerInterface
 {
