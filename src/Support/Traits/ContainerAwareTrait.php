@@ -2,6 +2,7 @@
 
 namespace LaravelBridge\Support\Traits;
 
+use Closure;
 use Illuminate\Contracts\Container\Container;
 
 trait ContainerAwareTrait
@@ -28,5 +29,16 @@ trait ContainerAwareTrait
         $this->container = $container;
 
         return $this;
+    }
+
+    /**
+     * @param mixed $concrete
+     * @return Closure
+     */
+    protected function getConcreteClosure($concrete)
+    {
+        return $concrete instanceof Closure ? $concrete : function () use ($concrete) {
+            return $concrete;
+        };
     }
 }
