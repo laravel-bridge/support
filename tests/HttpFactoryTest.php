@@ -2,9 +2,9 @@
 
 namespace Tests;
 
-use Illuminate\Http\Request as LaravelRequest;
-use Illuminate\Http\Response as LaravelResponse;
-use LaravelBridge\Support\HttpTransformer;
+use Illuminate\Http\Request as IlluminateRequest;
+use Illuminate\Http\Response as IlluminateResponse;
+use LaravelBridge\Support\IlluminateHttpFactory;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -12,16 +12,16 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Zend\Diactoros\ServerRequest as Psr7Request;
 
-class HttpTransformerTest extends TestCase
+class HttpFactoryTest extends TestCase
 {
     /**
-     * @var HttpTransformer
+     * @var IlluminateHttpFactory
      */
     private $target;
 
     protected function setUp()
     {
-        $this->target = new HttpTransformer;
+        $this->target = new IlluminateHttpFactory();
     }
 
     /**
@@ -29,9 +29,9 @@ class HttpTransformerTest extends TestCase
      */
     public function shouldBeOkayWhenCallCreateLaravelRequestWithLaravelRequest()
     {
-        $actual = $this->target->createLaravelRequest(new LaravelRequest(['foo' => 'bar']));
+        $actual = $this->target->createRequest(new IlluminateRequest(['foo' => 'bar']));
 
-        $this->assertInstanceOf(LaravelRequest::class, $actual);
+        $this->assertInstanceOf(IlluminateRequest::class, $actual);
         $this->assertSame('bar', $actual->query->get('foo'));
     }
 
@@ -40,9 +40,9 @@ class HttpTransformerTest extends TestCase
      */
     public function shouldBeOkayWhenCallCreateLaravelRequestWithSymfonyRequest()
     {
-        $actual = $this->target->createLaravelRequest(new SymfonyRequest(['foo' => 'bar']));
+        $actual = $this->target->createRequest(new SymfonyRequest(['foo' => 'bar']));
 
-        $this->assertInstanceOf(LaravelRequest::class, $actual);
+        $this->assertInstanceOf(IlluminateRequest::class, $actual);
         $this->assertSame('bar', $actual->query->get('foo'));
     }
 
@@ -54,9 +54,9 @@ class HttpTransformerTest extends TestCase
         $request = (new Psr7Request())
             ->withQueryParams(['foo' => 'bar']);
 
-        $actual = $this->target->createLaravelRequest($request);
+        $actual = $this->target->createRequest($request);
 
-        $this->assertInstanceOf(LaravelRequest::class, $actual);
+        $this->assertInstanceOf(IlluminateRequest::class, $actual);
         $this->assertSame('bar', $actual->query->get('foo'));
     }
 
@@ -66,7 +66,7 @@ class HttpTransformerTest extends TestCase
      */
     public function shouldThrowExceptionWhenCallCreateLaravelRequestWithUnknownInstance()
     {
-        $this->target->createLaravelRequest(new stdClass());
+        $this->target->createRequest(new stdClass());
     }
 
     /**
@@ -74,9 +74,9 @@ class HttpTransformerTest extends TestCase
      */
     public function shouldBeOkayWhenCallCreateLaravelResponseWithLaravelResponse()
     {
-        $actual = $this->target->createLaravelResponse(new LaravelResponse('foo'));
+        $actual = $this->target->createResponse(new IlluminateResponse('foo'));
 
-        $this->assertInstanceOf(LaravelResponse::class, $actual);
+        $this->assertInstanceOf(IlluminateResponse::class, $actual);
         $this->assertSame('foo', $actual->getContent());
     }
 
@@ -85,9 +85,9 @@ class HttpTransformerTest extends TestCase
      */
     public function shouldBeOkayWhenCallCreateLaravelResponseWithSymfonyResponse()
     {
-        $actual = $this->target->createLaravelResponse(new SymfonyResponse('foo'));
+        $actual = $this->target->createResponse(new SymfonyResponse('foo'));
 
-        $this->assertInstanceOf(LaravelResponse::class, $actual);
+        $this->assertInstanceOf(IlluminateResponse::class, $actual);
         $this->assertSame('foo', $actual->getContent());
     }
 
@@ -96,9 +96,9 @@ class HttpTransformerTest extends TestCase
      */
     public function shouldBeOkayWhenCallCreateLaravelResponseWithPsr7Response()
     {
-        $actual = $this->target->createLaravelResponse(new Response('foo'));
+        $actual = $this->target->createResponse(new Response('foo'));
 
-        $this->assertInstanceOf(LaravelResponse::class, $actual);
+        $this->assertInstanceOf(IlluminateResponse::class, $actual);
         $this->assertSame('foo', $actual->getContent());
     }
 
@@ -108,6 +108,6 @@ class HttpTransformerTest extends TestCase
      */
     public function shouldThrowExceptionWhenCallCreateLaravelResponseWithUnknownInstance()
     {
-        $this->target->createLaravelResponse(new stdClass());
+        $this->target->createResponse(new stdClass());
     }
 }

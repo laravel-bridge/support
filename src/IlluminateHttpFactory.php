@@ -2,8 +2,8 @@
 
 namespace LaravelBridge\Support;
 
-use Illuminate\Http\Request as LaravelRequest;
-use Illuminate\Http\Response as LaravelResponse;
+use Illuminate\Http\Request as IlluminateRequest;
+use Illuminate\Http\Response as IlluminateResponse;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as Psr7Response;
 use Psr\Http\Message\ServerRequestInterface as Psr7Request;
@@ -11,15 +11,15 @@ use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
-class HttpTransformer
+class IlluminateHttpFactory
 {
     /**
      * @param mixed $request
-     * @return LaravelRequest
+     * @return IlluminateRequest
      */
-    public function createLaravelRequest($request)
+    public function createRequest($request)
     {
-        if ($request instanceof LaravelRequest) {
+        if ($request instanceof IlluminateRequest) {
             return $request;
         }
 
@@ -28,7 +28,7 @@ class HttpTransformer
         }
 
         if ($request instanceof SymfonyRequest) {
-            return LaravelRequest::createFromBase($request);
+            return IlluminateRequest::createFromBase($request);
         }
 
         throw new InvalidArgumentException('Unknown request type');
@@ -36,11 +36,11 @@ class HttpTransformer
 
     /**
      * @param mixed $response
-     * @return LaravelResponse
+     * @return IlluminateResponse
      */
-    public function createLaravelResponse($response)
+    public function createResponse($response)
     {
-        if ($response instanceof LaravelResponse) {
+        if ($response instanceof IlluminateResponse) {
             return $response;
         }
 
@@ -49,7 +49,7 @@ class HttpTransformer
         }
 
         if ($response instanceof SymfonyResponse) {
-            return new LaravelResponse(
+            return new IlluminateResponse(
                 $response->getContent(),
                 $response->getStatusCode(),
                 $response->headers->all()
