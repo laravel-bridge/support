@@ -6,6 +6,7 @@ use BadMethodCallException;
 use Exception;
 use Illuminate\Container\Container;
 use LaravelBridge\Support\Exceptions\EntryNotFoundException;
+use LaravelBridge\Support\Traits\ContainerAwareTrait;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -17,10 +18,7 @@ use Psr\Container\ContainerInterface;
  */
 class ContainerBridge implements ContainerInterface
 {
-    /**
-     * @var Container
-     */
-    private $container;
+    use ContainerAwareTrait;
 
     /**
      * @param Container $container
