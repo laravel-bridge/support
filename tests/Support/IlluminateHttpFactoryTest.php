@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Zend\Diactoros\ServerRequest as Psr7Request;
 
-class HttpFactoryTest extends TestCase
+class IlluminateHttpFactoryTest extends TestCase
 {
     /**
      * @var IlluminateHttpFactory
