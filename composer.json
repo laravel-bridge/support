@@ -15,8 +15,8 @@
     "require": {
         "php": ">=5.5",
         "psr/container": "^1.0",
-        "illuminate/container": "^5.2",
-        "illuminate/http": "^5.2",
+        "illuminate/container": "^5.1",
+        "illuminate/http": "^5.1",
         "symfony/psr-http-message-bridge": "^1",
         "zendframework/zend-diactoros": "^1"
     },
