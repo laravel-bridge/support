@@ -2,6 +2,7 @@
 
 namespace LaravelBridge\Support;
 
+use ArrayAccess;
 use BadMethodCallException;
 use Exception;
 use Illuminate\Container\Container;
@@ -17,7 +18,7 @@ use Psr\Container\ContainerInterface;
  *
  * @mixin Container
  */
-class ContainerBridge implements ContainerInterface
+class ContainerBridge implements ArrayAccess, ContainerInterface
 {
     use ContainerAwareTrait;
 
@@ -64,5 +65,88 @@ class ContainerBridge implements ContainerInterface
     public function has($id)
     {
         return $this->container->bound($id);
+    }
+
+    /**
+     * Proxy to Container offsetExists()
+     *
+     * @param string $key
+     * @return bool
+     * @see Container::offsetExists()
+     */
+    public function offsetExists($key)
+    {
+        return $this->container->offsetExists($key);
+    }
+
+    /**
+     * Proxy to Container offsetGet()
+     *
+     * @param string $key
+     * @return mixed
+     * @see Container::offsetGet()
+     */
+    public function offsetGet($key)
+    {
+        return $this->container->offsetGet($key);
+    }
+
+    /**
+     * Proxy to Container offsetSet()
+     *
+     * @param string $key
+     * @param mixed $value
+     * @see Container::offsetSet()
+     */
+    public function offsetSet($key, $value)
+    {
+        $this->container->offsetSet($key, $value);
+    }
+
+    /**
+     * Proxy to Container offsetUnset()
+     *
+     * @param string $key
+     * @see Container::offsetUnset()
+     */
+    public function offsetUnset($key)
+    {
+        $this->container->offsetUnset($key);
+    }
+
+    /**
+     * Proxy to Container __get()
+     *
+     * @param string $key
+     * @return mixed
+     * @see Container::__get()
+     */
+    public function __get($key)
+    {
+        return $this->container->__get($key);
+    }
+
+    /**
+     * Proxy to Container __set()
+     *
+     * @param string $key
+     * @param mixed $value
+     * @see Container::__set()
+     */
+    public function __set($key, $value)
+    {
+        $this->container->__set($key, $value);
+    }
+
+    /**
+     * Proxy to Container __isset()
+     *
+     * @param string $key
+     * @return bool
+     * @see Container::__isset()
+     */
+    public function __isset($key)
+    {
+        return $this->container->offsetExists($key);
     }
 }

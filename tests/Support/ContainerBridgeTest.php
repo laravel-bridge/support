@@ -57,4 +57,32 @@ class ContainerBridgeTest extends TestCase
 
         $target->get('config');
     }
+
+    /**
+     * @test
+     */
+    public function shouldImplementArrayAccess()
+    {
+        $target = new ContainerBridge(new Container());
+        $target['config'] = 'whatever';
+
+        $this->assertTrue(isset($target['config']));
+        $this->assertSame('whatever', $target['config']);
+
+        unset($target['config']);
+
+        $this->assertFalse(isset($target['config']));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldImplementMagicMethod()
+    {
+        $target = new ContainerBridge(new Container());
+        $target->config = 'whatever';
+
+        $this->assertTrue(isset($target->config));
+        $this->assertSame('whatever', $target['config']);
+    }
 }
