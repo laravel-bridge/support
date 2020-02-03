@@ -24,7 +24,7 @@ class IlluminateHttpFactory
         }
 
         if ($request instanceof Psr7Request) {
-            $request = (new HttpFoundationFactory)->createRequest($request);
+            $request = (new HttpFoundationFactory())->createRequest($request);
         }
 
         if ($request instanceof SymfonyRequest) {
@@ -45,7 +45,7 @@ class IlluminateHttpFactory
         }
 
         if ($response instanceof Psr7Response) {
-            $response = (new HttpFoundationFactory)->createResponse($response);
+            $response = (new HttpFoundationFactory())->createResponse($response);
         }
 
         if ($response instanceof SymfonyResponse) {
