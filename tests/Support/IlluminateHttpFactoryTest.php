@@ -5,13 +5,12 @@ namespace Tests\Support;
 use Illuminate\Http\Request as IlluminateRequest;
 use Illuminate\Http\Response as IlluminateResponse;
 use InvalidArgumentException;
+use Laminas\Diactoros\ServerRequest as Psr7Request;
 use LaravelBridge\Support\IlluminateHttpFactory;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Zend\Diactoros\ServerRequest as Psr7Request;
 
 class IlluminateHttpFactoryTest extends TestCase
 {
@@ -98,7 +97,7 @@ class IlluminateHttpFactoryTest extends TestCase
      */
     public function shouldBeOkayWhenCallCreateLaravelResponseWithPsr7Response(): void
     {
-        $actual = $this->target->createResponse(new Response('foo'));
+        $actual = $this->target->createResponse(new SymfonyResponse('foo'));
 
         $this->assertInstanceOf(IlluminateResponse::class, $actual);
         $this->assertSame('foo', $actual->getContent());

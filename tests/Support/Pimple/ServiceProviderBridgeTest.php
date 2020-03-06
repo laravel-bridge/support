@@ -2,13 +2,9 @@
 
 namespace Tests\Support\Pimple;
 
-use Exception;
 use Illuminate\Container\Container;
-use Illuminate\Database\Capsule\Manager;
-use LaravelBridge\Support\ContainerBridge;
 use LaravelBridge\Support\Pimple\ServiceProviderBridge;
 use PHPUnit\Framework\TestCase;
-use Pimple\ServiceProviderInterface;
 
 class ServiceProviderBridgeTest extends TestCase
 {
