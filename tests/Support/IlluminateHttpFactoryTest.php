@@ -4,6 +4,7 @@ namespace Tests\Support;
 
 use Illuminate\Http\Request as IlluminateRequest;
 use Illuminate\Http\Response as IlluminateResponse;
+use InvalidArgumentException;
 use LaravelBridge\Support\IlluminateHttpFactory;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -19,7 +20,7 @@ class IlluminateHttpFactoryTest extends TestCase
      */
     private $target;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->target = new IlluminateHttpFactory();
     }
@@ -27,7 +28,7 @@ class IlluminateHttpFactoryTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenCallCreateLaravelRequestWithLaravelRequest()
+    public function shouldBeOkayWhenCallCreateLaravelRequestWithLaravelRequest(): void
     {
         $actual = $this->target->createRequest(new IlluminateRequest(['foo' => 'bar']));
 
@@ -38,7 +39,7 @@ class IlluminateHttpFactoryTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenCallCreateLaravelRequestWithSymfonyRequest()
+    public function shouldBeOkayWhenCallCreateLaravelRequestWithSymfonyRequest(): void
     {
         $actual = $this->target->createRequest(new SymfonyRequest(['foo' => 'bar']));
 
@@ -49,7 +50,7 @@ class IlluminateHttpFactoryTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenCallCreateLaravelRequestWithPsr7Request()
+    public function shouldBeOkayWhenCallCreateLaravelRequestWithPsr7Request(): void
     {
         $request = (new Psr7Request())
             ->withQueryParams(['foo' => 'bar']);
@@ -62,17 +63,18 @@ class IlluminateHttpFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
-    public function shouldThrowExceptionWhenCallCreateLaravelRequestWithUnknownInstance()
+    public function shouldThrowExceptionWhenCallCreateLaravelRequestWithUnknownInstance(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->target->createRequest(new stdClass());
     }
 
     /**
      * @test
      */
-    public function shouldBeOkayWhenCallCreateLaravelResponseWithLaravelResponse()
+    public function shouldBeOkayWhenCallCreateLaravelResponseWithLaravelResponse(): void
     {
         $actual = $this->target->createResponse(new IlluminateResponse('foo'));
 
@@ -83,7 +85,7 @@ class IlluminateHttpFactoryTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenCallCreateLaravelResponseWithSymfonyResponse()
+    public function shouldBeOkayWhenCallCreateLaravelResponseWithSymfonyResponse(): void
     {
         $actual = $this->target->createResponse(new SymfonyResponse('foo'));
 
@@ -94,7 +96,7 @@ class IlluminateHttpFactoryTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenCallCreateLaravelResponseWithPsr7Response()
+    public function shouldBeOkayWhenCallCreateLaravelResponseWithPsr7Response(): void
     {
         $actual = $this->target->createResponse(new Response('foo'));
 
@@ -104,10 +106,11 @@ class IlluminateHttpFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
-    public function shouldThrowExceptionWhenCallCreateLaravelResponseWithUnknownInstance()
+    public function shouldThrowExceptionWhenCallCreateLaravelResponseWithUnknownInstance(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->target->createResponse(new stdClass());
     }
 }

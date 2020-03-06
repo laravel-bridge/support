@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaravelBridge\Support;
 
 use Illuminate\Http\Request as IlluminateRequest;

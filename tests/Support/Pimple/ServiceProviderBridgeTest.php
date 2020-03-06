@@ -15,7 +15,7 @@ class ServiceProviderBridgeTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayRegisterUsingPimpleServiceProvider()
+    public function shouldBeOkayRegisterUsingPimpleServiceProvider(): void
     {
         $actual = new Container();
         $actual['foo'] = 'baz';

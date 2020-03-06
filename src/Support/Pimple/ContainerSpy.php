@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaravelBridge\Support\Pimple;
 
 use LaravelBridge\Support\Traits\ContainerAwareTrait;
