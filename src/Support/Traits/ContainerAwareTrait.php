@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace LaravelBridge\Support\Traits;
 
 use Closure;
-use Illuminate\Contracts\Container\Container;
+use Psr\Container\ContainerInterface;
 
 trait ContainerAwareTrait
 {
     /**
-     * @var Container
+     * @var ContainerInterface
      */
     protected $container;
 
     /**
-     * @return Container
+     * @return ContainerInterface
      */
     public function getContainer()
     {
@@ -23,7 +23,7 @@ trait ContainerAwareTrait
     }
 
     /**
-     * @param Container $container
+     * @param ContainerInterface $container
      * @return static
      */
     public function setContainer($container)
