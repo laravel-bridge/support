@@ -1,0 +1,50 @@
+name: tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - 1.x
+      - 2.x
+
+jobs:
+  linux_tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ 8.2, 8.1, 8.0 ]
+        stability: [ prefer-lowest, prefer-stable ]
+
+    name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: xdebug
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          command: composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-progress
+
+      - name: Execute phpcs
+        run: make check
+
+      - name: Execute tests
+        run: make test
+
+      - name: Code coverage
+        if: ${{ matrix.php == '8.2' && matrix.stability == 'prefer-stable' }}
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./build/coverage/clover.xml

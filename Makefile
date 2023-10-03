@@ -1,22 +1,28 @@
 #!/usr/bin/make -f
 
-.PHONY: all clean clean-all check test coverage
+PROCESSORS_NUM := $(shell getconf _NPROCESSORS_ONLN)
+GLOBAL_CONFIG := -d memory_limit=-1
 
-# ---------------------------------------------------------------------
+.PHONY: all
+all: check test
 
-all: test
-
+.PHONY: clean
 clean:
 	rm -rf ./build
 
+.PHONY: clean-all
 clean-all: clean
 	rm -rf ./vendor
 
+.PHONY: check
 check:
-	php vendor/bin/phpcs
+	mkdir -p build
+	php ${GLOBAL_CONFIG} vendor/bin/phpcs --parallel=${PROCESSORS_NUM} --report-junit=build/phpcs.xml
 
-test: check
-	phpdbg -qrr vendor/bin/phpunit
+.PHONY: test
+test:
+	php -d xdebug.mode=coverage vendor/bin/phpunit
 
+.PHONY: coverage
 coverage: test
 	@if [ "`uname`" = "Darwin" ]; then open build/coverage/index.html; fi
